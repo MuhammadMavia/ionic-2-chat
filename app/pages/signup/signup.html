@@ -1,0 +1,36 @@
+<ion-navbar primary *navbar>
+    <ion-title>SignUp</ion-title>
+</ion-navbar>
+
+<ion-content class="home">
+    <ion-card padding>
+        <ion-list>
+            <ion-item class="margin-0">
+                <ion-label floating>First Name</ion-label>
+                <ion-input #firstName type="text"></ion-input>
+            </ion-item>
+
+            <ion-item class="margin-0">
+                <ion-label floating>Last Name</ion-label>
+                <ion-input #lastName type="text"></ion-input>
+            </ion-item>
+            <ion-item class="margin-0">
+                <ion-label floating>Email</ion-label>
+                <ion-input #email type="email"></ion-input>
+            </ion-item>
+            <ion-item class="margin-0">
+                <ion-label floating>Password</ion-label>
+                <ion-input #password type="password"></ion-input>
+            </ion-item>
+            <br/>
+            <button [disabled]="!firstName._value || !lastName || !email._value || !password._value"
+                    (click)="createAccount(firstName,lastName,email,password)" full>Sign up
+            </button>
+            <br/>
+
+            <div class="text-center">
+                <button (click)="goToLoginPage()" round outline>Login</button>
+            </div>
+        </ion-list>
+    </ion-card>
+</ion-content>
