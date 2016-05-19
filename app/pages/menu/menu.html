@@ -1,0 +1,68 @@
+<ion-toolbar primary *navbar>
+    <ion-title>Menu</ion-title>
+</ion-toolbar>
+
+<ion-content>
+    <div>
+        <ion-segment [(ngModel)]="tab">
+            <ion-segment-button value="0">
+                <ion-icon name="md-search"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="1">
+                <ion-icon name="ios-people"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="2">
+                <ion-icon name="md-person-add"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="3">
+                <ion-icon name="md-notifications"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="4">
+                <ion-icon name="ios-text"></ion-icon>
+                <!--<ion-badge item-right>21</ion-badge>-->
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+
+    <div [ngSwitch]="tab">
+        <ion-list *ngSwitchWhen="'0'">
+            <ion-item *ngFor="#user of allUsers">
+                <ion-avatar item-left>
+                    <img src="{{user.profileImg}}">
+                </ion-avatar>
+                <h2>{{user.firstName}} {{user.lastName}}</h2>
+
+                <p class="text-lowercase">{{user.userName}}
+                    <button class="item-end" (click)="sendRequest(user)" small>Send Request</button>
+                </p>
+            </ion-item>
+        </ion-list>
+
+        <ion-list *ngSwitchWhen="'1'">
+            <ion-item>
+                <ion-thumbnail item-left>
+                    <img src="img/thumbnail-kitten-1.jpg">
+                </ion-thumbnail>
+                <h2>Luna</h2>
+            </ion-item>
+        </ion-list>
+
+        <ion-list *ngSwitchWhen="'2'">
+            <ion-item *ngFor="#request of requests">
+                <ion-avatar item-left>
+                    <img src="{{request.profile.profileImg}}">
+                </ion-avatar>
+                <p> you have received new request from {{request.profile.firstName}} {{request.profile.lastName}}</p>
+
+                <p class="text-lowercase">{{user}}</p>
+
+                <div class="text-end">
+                    <button (click)="resToReq(true,request)" small>Confirm</button>
+                    <button (click)="resToReq(false,request)" small outline>Remove</button>
+                </div>
+            </ion-item>
+        </ion-list>
+    </div>
+
+
+</ion-content>

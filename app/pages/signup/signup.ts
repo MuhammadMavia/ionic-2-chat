@@ -1,6 +1,6 @@
 import {Page,NavController} from 'ionic-angular';
 import {Login} from '../login/login';
-import {Todo} from '../todo/todo';
+import {Menu} from '../menu/menu';
 import {MyService} from '../../services/service';
 @Page({
     templateUrl: 'build/pages/signup/signup.html'
@@ -26,13 +26,14 @@ export class SignUp {
                 console.log("Error creating user:", error);
             } else {
                 var obj = {
+                    profileImg: 'http://www.wrfoodsystem.ca/files/images/blank_profile.png',
                     firstName: firstName._value,
                     lastName: lastName._value,
                     userName: email._value,
-                    data: 'http://www.wrfoodsystem.ca/files/images/blank_profile.png',
+                    userID: userData.uid,
                 };
-                this.ref.child(userData.uid).child('profile').set(obj, ()=> {
-                    this.nav.push(Todo);
+                this.ref.child('users').child(userData.uid).set(obj, ()=> {
+                    this.nav.push(Menu);
                 });
                 console.log("Successfully created user account with uid:", userData.uid);
             }

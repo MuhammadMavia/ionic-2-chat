@@ -1,5 +1,5 @@
-body {
-  background-color: #000;
+* {
+  text-transform: capitalize;
 }
 
 .margin-8 {
@@ -12,4 +12,20 @@ body {
 
 .text-center {
   text-align: center !important;
+}
+
+.text-end {
+  text-align: right !important;
+}
+
+.item-end {
+  float: right !important;
+}
+
+.text-lowercase {
+  text-transform: lowercase !important;
+}
+
+ion-label {
+  margin-bottom: 2px !important;
 }
