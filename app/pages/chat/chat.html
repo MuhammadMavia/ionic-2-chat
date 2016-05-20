@@ -1,0 +1,66 @@
+<ion-toolbar primary *navbar>
+    <ion-title>Chat</ion-title>
+    <ion-buttons end>
+        <button royal (click)="doLogout()">
+            <ion-icon name="more"></ion-icon>
+        </button>
+    </ion-buttons>
+</ion-toolbar>
+
+
+<ion-content>
+    <ion-grid padding>
+        <ion-row>
+            <ion-col width-10>
+                <ion-avatar item-left>
+                    <img src="http://weneedfun.com/wp-content/uploads/2015/09/Cute-baby-girl-pics-for-facebook-profile-20.jpg">
+                </ion-avatar>
+            </ion-col>
+            <ion-col width-90>
+                <ion-card padding class="msg-you">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem eum explicabo fugiat itaque
+                    laudantium maxime
+                    nobis praesentium provident quia quidem quod, sed! Alias est nam quasi quis, quisquam reiciendis
+                    similique.
+                    <br/>
+                    <sub padding class="item-end">12:56 pm</sub>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-grid padding>
+        <ion-row>
+            <ion-col width-90>
+                <ion-card padding class="msg-me">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem eum explicabo fugiat itaque
+                    laudantium maxime
+                    <br/>
+                    <sub padding class="item-end">12:56 pm</sub>
+                </ion-card>
+            </ion-col>
+            <ion-col width-10>
+                <ion-avatar item-left>
+                    <img src="http://weneedfun.com/wp-content/uploads/2015/09/Cute-baby-girl-pics-for-facebook-profile-20.jpg">
+                </ion-avatar>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+
+<ion-toolbar primary position="bottom" class="footer-input">
+
+    <ion-grid padding>
+        <ion-row>
+            <ion-col width-90>
+                <ion-item>
+                    <ion-textarea placeholder="Type Message"></ion-textarea>
+                </ion-item>
+            </ion-col>
+            <ion-col width-5>
+                <button light clear end>
+                    <ion-icon class="send-icon" name='ios-send'></ion-icon>
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-toolbar>

@@ -2,10 +2,12 @@ import {Injectable} from 'angular2/core';
 @Injectable()
 export class MyService {
     users:any;
+    friends:any;
     requests:any;
+    notifications:any;
 
     constructor() {
-        this.getCurrentUserProfile();
+
     }
 
     getRequestForMe() {
@@ -20,6 +22,34 @@ export class MyService {
             }
         });
         return this.requests;
+    }
+
+    getMeFriends() {
+        this.friends = [];
+        this.getFirebaseRef().child('friends').child(this.getCurrentUserData().uid).on('value', (request)=> {
+            for (var key in request.val()) {
+                this.getFirebaseRef().child('users').child(key).once("value", (user)=> {
+                    var obj = request.val()[key];
+                    obj.profile = user.val();
+                    this.friends.push(obj);
+                });
+            }
+        });
+        return this.friends;
+    }
+
+    getNotifications() {
+        this.notifications = [];
+        this.getFirebaseRef().child('notifications').child(this.getCurrentUserData().uid).on('value', (notification)=> {
+            for (var key in notification.val()) {
+                this.getFirebaseRef().child('users').child(key).once("value", (user)=> {
+                    var obj = notification.val()[key];
+                    obj.profile = user.val();
+                    this.notifications.push(obj);
+                });
+            }
+        });
+        return this.notifications;
     }
 
     getFirebaseRef() {
@@ -41,10 +71,7 @@ export class MyService {
     }
 
     getCurrentUserProfile() {
-        this.getFirebaseRef().child('users').child(this.getCurrentUserData().uid).on("value", (user)=> {
-            console.log(user.val());
-            return user.val();
-        });
+        return JSON.parse(localStorage.getItem('userProfile'))
     }
 
     sendRequest(reqUser) {
@@ -56,11 +83,21 @@ export class MyService {
 
     resToReq(res, request) {
         if (res) {
-            var a = this.getCurrentUserProfile();
-            console.log(request);
-            console.log(a);
             var obj = {};
-            this.getFirebaseRef().child("notifications").child(request.profile.userID).set(a);
+            obj.userID = this.getCurrentUserData().uid;
+            obj.code = 1;
+            obj.read = false;
+
+            var multiPath = {};
+
+            multiPath[`notifications/${request.profile.userID}/${obj.userID}`] = obj;
+            multiPath[`friends/${this.getCurrentUserData().uid}/${request.profile.userID}`] = {status: 1};
+            multiPath[`friends/${request.profile.userID}/${this.getCurrentUserData().uid}`] = {status: 1};
+            multiPath[`requests/${this.getCurrentUserData().uid}/${request.profile.userID}`] = null;
+            this.getFirebaseRef().update(multiPath);
+            //this.getFirebaseRef().child("notifications").child(request.profile.userID).child(obj.userID).set(obj);
+            //this.getFirebaseRef().child("friends").child(this.getCurrentUserData().uid).child(request.profile.userID).set({status: 1});
+            //this.getFirebaseRef().child("friends").child(request.profile.userID).child(this.getCurrentUserData().uid).set({status: 1});
             //this.getFirebaseRef().child("requests").child(this.getCurrentUserData().uid).child(request.profile.userID).set(null);
         }
         else {

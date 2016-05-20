@@ -1,6 +1,12 @@
 <ion-toolbar primary *navbar>
     <ion-title>Menu</ion-title>
+    <ion-buttons end>
+        <button royal (click)="doLogout()">
+            <ion-icon name="more"></ion-icon>
+        </button>
+    </ion-buttons>
 </ion-toolbar>
+
 
 <ion-content>
     <div>
@@ -39,11 +45,13 @@
         </ion-list>
 
         <ion-list *ngSwitchWhen="'1'">
-            <ion-item>
-                <ion-thumbnail item-left>
-                    <img src="img/thumbnail-kitten-1.jpg">
-                </ion-thumbnail>
-                <h2>Luna</h2>
+            <ion-item *ngFor="#friend of friends">
+                <ion-avatar item-left>
+                    <img src="{{friend.profile.profileImg}}">
+                </ion-avatar>
+                <h2>{{friend.profile.firstName}} {{friend.profile.lastName}}</h2>
+
+                <p class="text-lowercase">{{friend.profile.userName}}</p>
             </ion-item>
         </ion-list>
 
@@ -60,6 +68,15 @@
                     <button (click)="resToReq(true,request)" small>Confirm</button>
                     <button (click)="resToReq(false,request)" small outline>Remove</button>
                 </div>
+            </ion-item>
+        </ion-list>
+
+        <ion-list *ngSwitchWhen="'3'">
+            <ion-item *ngFor="#notification of notifications">
+                <ion-avatar item-left>
+                    <img src="{{notification.profile.profileImg}}">
+                </ion-avatar>
+                <p>{{notification.profile.firstName}} {{notification.profile.lastName}} accept your friend request.</p>
             </ion-item>
         </ion-list>
     </div>

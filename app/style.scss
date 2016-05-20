@@ -26,6 +26,40 @@
   text-transform: lowercase !important;
 }
 
+.msg-you {
+  background: rgba(213, 239, 246, 0.85);
+  border-radius: 0 20px 20px 20px;
+}
+
+.msg-me {
+  background: rgba(94, 217, 115, 0.23);
+  border-radius: 20px 0 20px 20px;
+}
+
+.footer-input .text-input {
+  display: inline-block;
+  background: #fff;
+  margin: 0 0 0 0 !important;
+  padding-top: 10px !important;
+  padding-left: 10px;
+  border-radius: 10px !important;
+}
+.footer-input ion-item .item-inner {
+  border: none;
+  padding: 0 0 0 0!important;
+}
+
+.footer-input ion-item {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.send-icon {
+  padding: 0 !important;
+  font-size: 3em !important;
+}
+
 ion-label {
   margin-bottom: 2px !important;
 }

@@ -22,12 +22,8 @@ export class Login {
                 console.log("Login Failed!", error);
             } else {
                 this.myService.getFirebaseRef().child('users').child(authData.uid).once("value", (user)=> {
-                    //localStorage.setItem();
-                    console.log(user.val());
-                    return user.val();
+                    localStorage.setItem('userProfile', JSON.stringify(user.val()));
                 });
-
-
                 this.nav.push(Menu);
                 console.log("Authenticated successfully with payload:", authData);
             }
