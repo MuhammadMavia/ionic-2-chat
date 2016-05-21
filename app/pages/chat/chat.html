@@ -34,6 +34,7 @@
             </ion-col>
             <ion-col width-90>
                 <ion-card padding class="msg-you">
+                    <div></div>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem eum explicabo fugiat itaque
                     laudantium maxime
                     nobis praesentium provident quia quidem quod, sed! Alias est nam quasi quis, quisquam reiciendis
@@ -69,11 +70,11 @@
         <ion-row>
             <ion-col width-90>
                 <ion-item>
-                    <ion-textarea placeholder="Type Message"></ion-textarea>
+                    <ion-textarea [(ngModel)]="msg" placeholder="Type Message"></ion-textarea>
                 </ion-item>
             </ion-col>
             <ion-col width-5>
-                <button light clear end>
+                <button light clear end (click)="sendMsg()" [disabled]="!msg">
                     <ion-icon class="send-icon" name='ios-send'></ion-icon>
                 </button>
             </ion-col>

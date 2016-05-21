@@ -43,17 +43,17 @@ export class Menu {
         else {
             this.myService.getFirebaseRef().child('my_conversations').child(friend.profile.userID).on('value', (conversation)=> {
                 for (var key in conversation.val()) {
-                    console.log(key);
-                    console.log(this.conversations);
-                    this.conversations.forEach((val)=> {
-                        if (val.conversationID == key) {
-                            console.log(key,'Matched');
-                            break;
-                        }
-                    })
+                    //console.log(key);
+                    //console.log(this.conversations);
+                    //this.conversations.forEach((val)=> {
+                    //    if (val.conversationID == key) {
+                    //        console.log(key,'Matched');
+                    //        break;
+                    //    }
+                    //})
                 }
             });
-            console.log(friend.profile)
+            //console.log(friend.profile)
         }
 
     }

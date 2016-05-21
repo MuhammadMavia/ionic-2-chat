@@ -132,7 +132,7 @@ export class MyService {
         }
     }
 
-    sendMsg() {
+    sendMsg() {alert()
         this.getFirebaseRef().child('conversations')
     }
 }
