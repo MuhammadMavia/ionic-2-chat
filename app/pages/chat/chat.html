@@ -1,11 +1,27 @@
-<ion-toolbar primary *navbar>
-    <ion-title>Chat</ion-title>
+<ion-navbar primary *navbar>
+    <ion-grid padding>
+        <ion-row>
+            <ion-col width-10>
+                <ion-avatar item-left>
+                    <img src="{{friend.profileImg}}">
+                </ion-avatar>
+            </ion-col>
+            <ion-col width-90>
+                <ion-title style="padding-top: 20px">{{friend.firstName}} {{friend.lastName}}</ion-title>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+
+
+
+
     <ion-buttons end>
         <button royal (click)="doLogout()">
             <ion-icon name="more"></ion-icon>
         </button>
     </ion-buttons>
-</ion-toolbar>
+</ion-navbar>
 
 
 <ion-content>

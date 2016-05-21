@@ -5,6 +5,7 @@ export class MyService {
     friends:any;
     requests:any;
     notifications:any;
+    conversations:any;
 
     constructor() {
 
@@ -52,6 +53,27 @@ export class MyService {
         return this.notifications;
     }
 
+    getConversations() {
+        this.conversations = [];
+        this.getFirebaseRef().child('my_conversations').child(this.getCurrentUserData().uid).on('value', (myConversation)=> {
+            for (var key in myConversation.val()) {
+                console.log(key);
+                this.getFirebaseRef().child('conversations').child(key).once("value", (conversation)=> {
+                    var obj = conversation.val();
+                    let r = obj.users.indexOf(this.getCurrentUserData().uid);
+                    r ? r = 0 : r = 1;
+                    this.getFirebaseRef().child('users').child(obj.users[r]).once('value', (user)=> {
+                        obj.profile = user.val();
+                        obj.conversationID = key;
+                        this.conversations.push(obj);
+                        console.log(this.conversations)
+                    });
+                });
+            }
+        });
+        return this.conversations;
+    }
+
     getFirebaseRef() {
         return new Firebase('https://ionic2chat.firebaseio.com/')
     }
@@ -95,13 +117,22 @@ export class MyService {
             multiPath[`friends/${request.profile.userID}/${this.getCurrentUserData().uid}`] = {status: 1};
             multiPath[`requests/${this.getCurrentUserData().uid}/${request.profile.userID}`] = null;
             this.getFirebaseRef().update(multiPath);
-            //this.getFirebaseRef().child("notifications").child(request.profile.userID).child(obj.userID).set(obj);
-            //this.getFirebaseRef().child("friends").child(this.getCurrentUserData().uid).child(request.profile.userID).set({status: 1});
-            //this.getFirebaseRef().child("friends").child(request.profile.userID).child(this.getCurrentUserData().uid).set({status: 1});
-            //this.getFirebaseRef().child("requests").child(this.getCurrentUserData().uid).child(request.profile.userID).set(null);
+            var conversationKey = this.getFirebaseRef().child('conversations').push({
+                users: [request.profile.userID, this.getCurrentUserData().uid],
+                createdOn: Firebase.ServerValue.TIMESTAMP
+            }, (err, data)=> {
+                if (!err) {
+                    this.getFirebaseRef().child('my_conversations').child(request.profile.userID).child(conversationKey.key()).set(true);
+                    this.getFirebaseRef().child('my_conversations').child(this.getCurrentUserData().uid).child(conversationKey.key()).set(true);
+                }
+            });
         }
         else {
             this.getFirebaseRef().child("requests").child(this.getCurrentUserData().uid).child(request.profile.userID).set(null);
         }
+    }
+
+    sendMsg() {
+        this.getFirebaseRef().child('conversations')
     }
 }

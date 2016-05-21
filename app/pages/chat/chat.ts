@@ -1,4 +1,4 @@
-import {Page,NavController} from 'ionic-angular';
+import {Page,NavController,NavParams} from 'ionic-angular';
 //import {Login} from '../login/login';
 //import {Menu} from '../menu/menu';
 //import {MyService} from '../../services/service';
@@ -7,9 +7,11 @@ import {Page,NavController} from 'ionic-angular';
 })
 export class Chat {
     //ref:any;
+    friend:any;
 
-   /* constructor(public nav:NavController, public myService:MyService) {
+    constructor(public nav:NavController, public params:NavParams) {
+        this.friend = params.data.profile;
+        console.log(params.data);
         //this.ref = myService.getFirebaseRef();
     }
-*/
 }

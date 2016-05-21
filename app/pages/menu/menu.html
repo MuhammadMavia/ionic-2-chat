@@ -45,7 +45,7 @@
         </ion-list>
 
         <ion-list *ngSwitchWhen="'1'">
-            <ion-item *ngFor="#friend of friends">
+            <ion-item *ngFor="#friend of friends" (click)="goToChat(friend)">
                 <ion-avatar item-left>
                     <img src="{{friend.profile.profileImg}}">
                 </ion-avatar>
@@ -77,6 +77,19 @@
                     <img src="{{notification.profile.profileImg}}">
                 </ion-avatar>
                 <p>{{notification.profile.firstName}} {{notification.profile.lastName}} accept your friend request.</p>
+            </ion-item>
+        </ion-list>
+
+        <ion-list *ngSwitchWhen="'4'">
+            <ion-item *ngFor="#conversation of conversations" (click)="goToChat(conversation)">
+                <ion-avatar item-left>
+                    <img src="{{conversation.profile.profileImg}}">
+                </ion-avatar>
+                <h2>{{conversation.profile.firstName}} {{conversation.profile.lastName}}</h2>
+
+                <p class="text-lowercase">{{conversation.profile.userName}}
+                    <sup class="item-end">10:45 PM</sup>
+                </p>
             </ion-item>
         </ion-list>
     </div>
