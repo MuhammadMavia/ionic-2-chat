@@ -26,14 +26,42 @@
   text-transform: lowercase !important;
 }
 
+.msg-you, .msg-me {
+  box-shadow: none;
+
+}
+
 .msg-you {
-  background: rgba(213, 239, 246, 0.85);
+  background: rgb(213, 239, 246);
   border-radius: 0 20px 20px 20px;
 }
 
 .msg-me {
-  background: rgba(94, 217, 115, 0.23);
+  background: rgb(183, 255, 220);
   border-radius: 20px 0 20px 20px;
+}
+
+.msg-you .msg-card-corner {
+  height: 50px;
+  width: 50px;
+  background: inherit;
+  position: absolute;
+  z-index: -1;
+  border-radius: 5px;
+  transform: rotate(45deg);
+  //margin-left: -24px;
+  left: 12%;
+}
+.msg-me .msg-card-corner {
+  height: 50px;
+  width: 50px;
+  background: inherit;
+  position: absolute;
+  right: 12%;
+  z-index: -1;
+  border-radius: 5px;
+  transform: rotate(45deg);
+  //margin-left: -24px;
 }
 
 .footer-input .text-input {
@@ -44,9 +72,10 @@
   padding-left: 10px;
   border-radius: 10px !important;
 }
+
 .footer-input ion-item .item-inner {
   border: none;
-  padding: 0 0 0 0!important;
+  padding: 0 0 0 0 !important;
 }
 
 .footer-input ion-item {

@@ -14,7 +14,7 @@ export class Chat {
         console.log(params.data);
         //this.ref = myService.getFirebaseRef();
     }
-    sendMsg(){
-        this.myService.sendMsg();
+    sendMsg(msg){
+        this.myService.sendMsg(msg,this.params.data);
     }
 }

@@ -3,17 +3,14 @@
         <ion-row>
             <ion-col width-10>
                 <ion-avatar item-left>
-                    <img src="{{friend.profileImg}}">
+                    <!--<img src="{{friend.profileImg}}">-->
                 </ion-avatar>
             </ion-col>
             <ion-col width-90>
-                <ion-title style="padding-top: 20px">{{friend.firstName}} {{friend.lastName}}</ion-title>
+                <!--<ion-title style="padding-top: 20px">{{friend.firstName}} {{friend.lastName}}</ion-title>-->
             </ion-col>
         </ion-row>
     </ion-grid>
-
-
-
 
 
     <ion-buttons end>
@@ -29,18 +26,18 @@
         <ion-row>
             <ion-col width-10>
                 <ion-avatar item-left>
-                    <img src="http://weneedfun.com/wp-content/uploads/2015/09/Cute-baby-girl-pics-for-facebook-profile-20.jpg">
+                    <img src="./build/img/a.png">
                 </ion-avatar>
             </ion-col>
             <ion-col width-90>
                 <ion-card padding class="msg-you">
-                    <div></div>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem eum explicabo fugiat itaque
-                    laudantium maxime
-                    nobis praesentium provident quia quidem quod, sed! Alias est nam quasi quis, quisquam reiciendis
-                    similique.
-                    <br/>
-                    <sub padding class="item-end">12:56 pm</sub>
+                        <div class="msg-card-corner"></div>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem eum explicabo fugiat itaque
+                        laudantium maxime
+                        nobis praesentium provident quia quidem quod, sed! Alias est nam quasi quis, quisquam reiciendis
+                        similique.
+                        <br/>
+                        <sub padding class="item-end">12:56 pm</sub>
                 </ion-card>
             </ion-col>
         </ion-row>
@@ -49,6 +46,7 @@
         <ion-row>
             <ion-col width-90>
                 <ion-card padding class="msg-me">
+                    <div class="msg-card-corner"></div>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem eum explicabo fugiat itaque
                     laudantium maxime
                     <br/>
@@ -59,6 +57,7 @@
                 <ion-avatar item-left>
                     <img src="http://weneedfun.com/wp-content/uploads/2015/09/Cute-baby-girl-pics-for-facebook-profile-20.jpg">
                 </ion-avatar>
+
             </ion-col>
         </ion-row>
     </ion-grid>
@@ -74,7 +73,7 @@
                 </ion-item>
             </ion-col>
             <ion-col width-5>
-                <button light clear end (click)="sendMsg()" [disabled]="!msg">
+                <button light clear end (click)="sendMsg(msg)" [disabled]="!msg">
                     <ion-icon class="send-icon" name='ios-send'></ion-icon>
                 </button>
             </ion-col>

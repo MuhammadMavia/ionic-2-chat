@@ -88,6 +88,10 @@ export class MyService {
         return this.users;
     }
 
+    getChat() {
+
+    }
+
     getCurrentUserData() {
         return JSON.parse(localStorage.getItem('firebase:session::ionic2chat'))
     }
@@ -132,7 +136,15 @@ export class MyService {
         }
     }
 
-    sendMsg() {alert()
-        this.getFirebaseRef().child('conversations')
+    sendMsg(msg, user) {
+        var newMsg = {};
+        newMsg.to = this.getCurrentUserData().uid;
+        newMsg.code = 1;
+        newMsg.from = user.profile.userID;
+        newMsg.time = Firebase.ServerValue.TIMESTAMP;
+        newMsg.read = false;
+        newMsg.text = msg;
+        console.log(msg, user);
+        this.getFirebaseRef().child('messages').child(user.conversationID).push(newMsg)
     }
 }
