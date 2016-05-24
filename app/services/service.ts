@@ -4,6 +4,7 @@ export class MyService {
     users:any;
     friends:any;
     requests:any;
+    messages:any;
     notifications:any;
     conversations:any;
 
@@ -56,17 +57,19 @@ export class MyService {
     getConversations() {
         this.conversations = [];
         this.getFirebaseRef().child('my_conversations').child(this.getCurrentUserData().uid).on('value', (myConversation)=> {
+            //console.log('my_conversations', myConversation.val());
             for (var key in myConversation.val()) {
-                console.log(key);
                 this.getFirebaseRef().child('conversations').child(key).once("value", (conversation)=> {
+                    //console.log('conversation', conversation.val());
                     var obj = conversation.val();
                     let r = obj.users.indexOf(this.getCurrentUserData().uid);
+                    //console.log(key, r);
                     r ? r = 0 : r = 1;
                     this.getFirebaseRef().child('users').child(obj.users[r]).once('value', (user)=> {
                         obj.profile = user.val();
-                        obj.conversationID = key;
+                        obj.conversationID = conversation.key();
                         this.conversations.push(obj);
-                        console.log(this.conversations)
+                        //console.log('conversations', this.conversations)
                     });
                 });
             }
@@ -88,8 +91,18 @@ export class MyService {
         return this.users;
     }
 
-    getChat() {
-
+    getChat(conversationID) {
+        this.messages = [];
+        this.getFirebaseRef().child('messages').child(conversationID).on("child_added", (msg)=> {
+            //this.messages = [];
+            this.messages.push(msg.val());
+            /* for (var key in msg.val()) {
+             this.messages.push(msg.val()[key]);
+             }*/
+            //location.assign('#bottom');
+            //console.log(this.messages);
+        });
+        return this.messages
     }
 
     getCurrentUserData() {
@@ -144,7 +157,7 @@ export class MyService {
         newMsg.time = Firebase.ServerValue.TIMESTAMP;
         newMsg.read = false;
         newMsg.text = msg;
-        console.log(msg, user);
+        //console.log(msg, user);
         this.getFirebaseRef().child('messages').child(user.conversationID).push(newMsg)
     }
 }

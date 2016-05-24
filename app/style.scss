@@ -52,6 +52,7 @@
   //margin-left: -24px;
   left: 12%;
 }
+
 .msg-me .msg-card-corner {
   height: 50px;
   width: 50px;
@@ -92,3 +93,12 @@
 ion-label {
   margin-bottom: 2px !important;
 }
+
+.ion-ios-text:before {
+  content: "\f250";
+}
+
+/*
+.ion-ios-text:after {
+  content: "\f250";
+}*/
