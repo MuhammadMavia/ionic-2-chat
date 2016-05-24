@@ -19,14 +19,16 @@
             </ion-segment-button>
             <ion-segment-button value="2">
                 <ion-icon name="md-person-add"></ion-icon>
+                <i class="badge" *ngIf="requests.length">.</i>
             </ion-segment-button>
             <ion-segment-button value="3">
                 <ion-icon name="md-notifications"></ion-icon>
+                <i class="badge" *ngIf="notifications.length">.</i>
             </ion-segment-button>
             <ion-segment-button value="4">
                 <ion-icon name="ios-text"></ion-icon>
                 <!--<ion-badge item-right>21</ion-badge>-->
-                <i>21</i>
+                <i class="badge">.</i>
             </ion-segment-button>
         </ion-segment>
     </div>

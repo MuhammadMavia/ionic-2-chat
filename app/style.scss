@@ -98,7 +98,13 @@ ion-label {
   content: "\f250";
 }
 
-/*
-.ion-ios-text:after {
-  content: "\f250";
-}*/
+.badge {
+  height: 10px;
+  background: #284dc1;
+  border-radius: 100%;
+  margin: 10px 0 0 -7px;
+  font-size: 8px;
+   padding: 4px;
+  color: transparent;
+  position: absolute;
+}
