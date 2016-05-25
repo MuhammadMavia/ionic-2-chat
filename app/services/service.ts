@@ -28,28 +28,28 @@ export class MyService {
 
     getMeFriends() {
         this.friends = [];
-        this.getFirebaseRef().child('friends').child(this.getCurrentUserData().uid).on('value', (request)=> {
-            for (var key in request.val()) {
-                this.getFirebaseRef().child('users').child(key).once("value", (user)=> {
-                    var obj = request.val()[key];
+        this.getFirebaseRef().child('friends').child(this.getCurrentUserData().uid).on('child_added', (request)=> {
+            //for (var key in request.val()) {
+                this.getFirebaseRef().child('users').child(request.key()).once("value", (user)=> {
+                    var obj = request.val();
                     obj.profile = user.val();
                     this.friends.push(obj);
                 });
-            }
+            //}
         });
         return this.friends;
     }
 
     getNotifications() {
         this.notifications = [];
-        this.getFirebaseRef().child('notifications').child(this.getCurrentUserData().uid).on('value', (notification)=> {
-            for (var key in notification.val()) {
-                this.getFirebaseRef().child('users').child(key).once("value", (user)=> {
-                    var obj = notification.val()[key];
-                    obj.profile = user.val();
-                    this.notifications.push(obj);
-                });
-            }
+        this.getFirebaseRef().child('notifications').child(this.getCurrentUserData().uid).on('child_added', (notification)=> {
+            //for (var key in notification.val()) {
+            this.getFirebaseRef().child('users').child(notification.key()).once("value", (user)=> {
+                var obj = notification.val();
+                obj.profile = user.val();
+                this.notifications.push(obj);
+            });
+            //}
         });
         return this.notifications;
     }
