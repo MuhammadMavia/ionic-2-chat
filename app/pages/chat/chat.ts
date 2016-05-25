@@ -14,7 +14,7 @@ export class Chat {
     constructor(public nav:NavController, public params:NavParams, public myService:MyService) {
         this.friend = params.data.profile;
         this.currentUserProfile = myService.getCurrentUserProfile();
-        this.messages = myService.getChat(params.data.conversationID);
+        this.messages = myService.getChat(params.data.conversationID,params.data);
         //console.log(params.data);
         //this.ref = myService.getFirebaseRef();
     }

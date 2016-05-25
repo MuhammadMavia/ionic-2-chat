@@ -40,6 +40,7 @@ export class Menu {
         console.log(friend);
         if (friend.conversationID) {
             this.nav.push(Chat, friend);
+
         }
         else {
             /*this.myService.getFirebaseRef().child('my_conversations').child(friend.profile.userID).on('value', (conversation)=> {

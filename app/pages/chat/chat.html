@@ -33,7 +33,7 @@
                     <ion-card padding class="msg-you">
                         <div class="msg-card-corner"></div>
                         <p>{{msg.text}}</p>
-                        <sub padding class="item-end">{{msg.time|date:'dd/MM/yyyy h:mma'}}</sub>
+                        <sub padding class="item-end">{{msg.time}}</sub>
                     </ion-card>
                 </ion-col>
             </ion-row>
@@ -44,7 +44,7 @@
                     <ion-card padding class="msg-me">
                         <div class="msg-card-corner"></div>
                         <p>{{msg.text}}</p>
-                        <sub padding class="item-end">{{msg.time|date:'dd/MM/yyyy h:mma'}}</sub>
+                        <sub padding class="item-end">{{msg.time}}</sub>
                     </ion-card>
                 </ion-col>
                 <ion-col width-10>
@@ -68,7 +68,7 @@
                 </ion-item>
             </ion-col>
             <ion-col width-5>
-                <button light clear end (click)="sendMsg(msg)" [disabled]="!msg">
+                <button light clear end (click)="sendMsg(msg)" [disabled]="!msg" href="#bottom">
                     <ion-icon class="send-icon" name='ios-send'></ion-icon>
                 </button>
             </ion-col>

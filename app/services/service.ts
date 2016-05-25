@@ -1,4 +1,6 @@
 import {Injectable} from 'angular2/core';
+import {LocalNotifications} from 'ionic-native';
+
 @Injectable()
 export class MyService {
     users:any;
@@ -9,6 +11,16 @@ export class MyService {
     conversations:any;
 
     constructor() {
+
+    }
+
+    localNotificationShow(msg) {
+        LocalNotifications.schedule({
+            id: 1,
+            text: msg,
+            icon: 'http://a2.mzstatic.com/us/r30/Purple6/v4/45/99/be/4599beb5-9f5b-820b-c0b4-7936727f6949/icon256.png',
+            data: {secret: "dhhd"}
+        });
 
     }
 
@@ -24,20 +36,8 @@ export class MyService {
             //}
         });
         this.getFirebaseRef().child('requests').child(this.getCurrentUserData().uid).on('child_removed', (request)=> {
-            console.log(request.val());
-            //this.getFirebaseRef().child('users').child(request.key()).once("value", (user)=> {
-            //    var obj = request.val();
-            //    obj.profile = user.val();
-            //    this.requests.push(obj);
-            //});
-
             this.requests.forEach((val, i)=> {
-                console.log(val.userID == request.val().userID)
-                if (val.userID == request.val().userID) {
-                    this.requests.splice(i, 1)
-                }
-                console.log(request.val().userID)
-                console.log(val.userID)
+                val.userID == request.val().userID ? this.requests.splice(i, 1) : null
             })
 
         });
@@ -74,24 +74,42 @@ export class MyService {
 
     getConversations() {
         this.conversations = [];
-        this.getFirebaseRef().child('my_conversations').child(this.getCurrentUserData().uid).on('value', (myConversation)=> {
+        this.getFirebaseRef().child('my_conversations').child(this.getCurrentUserData().uid).on('child_added', (myConversation)=> {
             //console.log('my_conversations', myConversation.val());
-            for (var key in myConversation.val()) {
-                this.getFirebaseRef().child('conversations').child(key).once("value", (conversation)=> {
-                    //console.log('conversation', conversation.val());
-                    var obj = conversation.val();
-                    let r = obj.users.indexOf(this.getCurrentUserData().uid);
-                    //console.log(key, r);
-                    r ? r = 0 : r = 1;
-                    this.getFirebaseRef().child('users').child(obj.users[r]).once('value', (user)=> {
-                        obj.profile = user.val();
-                        obj.conversationID = conversation.key();
-                        this.conversations.push(obj);
-                        //console.log('conversations', this.conversations)
-                    });
+            //for (var key in myConversation.val()) {
+            this.getFirebaseRef().child('conversations').child(myConversation.key()).once("value", (conversation)=> {
+                //console.log('conversation', conversation.val());
+                var obj = conversation.val();
+                let r = obj.users.indexOf(this.getCurrentUserData().uid);
+                //console.log(key, r);
+                r ? r = 0 : r = 1;
+                this.getFirebaseRef().child('users').child(obj.users[r]).once('value', (user)=> {
+                    obj.profile = user.val();
+                    obj.conversationID = conversation.key();
+                    this.conversations.push(obj);
+                    //console.log('conversations', this.conversations)
                 });
-            }
+            });
+            //}
         });
+        /*this.getFirebaseRef().child('my_conversations').child(this.getCurrentUserData().uid).on('child_changed', (myConversation)=> {
+         console.log('my_conversations', myConversation.val());
+         //for (var key in myConversation.val()) {
+         /!* this.getFirebaseRef().child('conversations').child(myConversation.key()).once("value", (conversation)=> {
+         //console.log('conversation', conversation.val());
+         var obj = conversation.val();
+         let r = obj.users.indexOf(this.getCurrentUserData().uid);
+         //console.log(key, r);
+         r ? r = 0 : r = 1;
+         this.getFirebaseRef().child('users').child(obj.users[r]).once('value', (user)=> {
+         obj.profile = user.val();
+         obj.conversationID = conversation.key();
+         this.conversations.push(obj);
+         //console.log('conversations', this.conversations)
+         });
+         });*!/
+         //}
+         });*/
         return this.conversations;
     }
 
@@ -109,11 +127,16 @@ export class MyService {
         return this.users;
     }
 
-    getChat(conversationID) {
+    getChat(conversationID, conversation) {
         this.messages = [];
+        console.log(conversation.lastMsg.from == this.getCurrentUserData().uid)
+        if (conversation.lastMsg.from == this.getCurrentUserData().uid) {
+            this.getFirebaseRef().child('conversations').child(conversationID).child('lastMsg').child('read').set(true);
+        }
         this.getFirebaseRef().child('messages').child(conversationID).on("child_added", (msg)=> {
             //this.messages = [];
             this.messages.push(msg.val());
+            this.localNotificationShow("Msg");
             /* for (var key in msg.val()) {
              this.messages.push(msg.val()[key]);
              }*/
@@ -150,11 +173,19 @@ export class MyService {
             multiPath[`notifications/${request.profile.userID}/${obj.userID}`] = obj;
             multiPath[`friends/${this.getCurrentUserData().uid}/${request.profile.userID}`] = {status: 1};
             multiPath[`friends/${request.profile.userID}/${this.getCurrentUserData().uid}`] = {status: 1};
-            //multiPath[`requests/${this.getCurrentUserData().uid}/${request.profile.userID}`] = null;
+            multiPath[`requests/${this.getCurrentUserData().uid}/${request.profile.userID}`] = null;
             this.getFirebaseRef().update(multiPath);
             var conversationKey = this.getFirebaseRef().child('conversations').push({
                 users: [request.profile.userID, this.getCurrentUserData().uid],
-                createdOn: Firebase.ServerValue.TIMESTAMP
+                createdOn: Firebase.ServerValue.TIMESTAMP,
+                lastMsg: {
+                    text: false,
+                    time: false,
+                    from: false,
+                    read: false,
+                    code: false,
+                    to: false
+                }
             }, (err, data)=> {
                 if (!err) {
                     this.getFirebaseRef().child('my_conversations').child(request.profile.userID).child(conversationKey.key()).set(true);
@@ -176,6 +207,7 @@ export class MyService {
         newMsg.read = false;
         newMsg.text = msg;
         //console.log(msg, user);
-        this.getFirebaseRef().child('messages').child(user.conversationID).push(newMsg)
+        this.getFirebaseRef().child('messages').child(user.conversationID).push(newMsg);
+        this.getFirebaseRef().child('conversations').child(user.conversationID).child('lastMsg').set(newMsg);
     }
 }

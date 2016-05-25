@@ -28,7 +28,7 @@
             <ion-segment-button value="4">
                 <ion-icon name="ios-text"></ion-icon>
                 <!--<ion-badge item-right>21</ion-badge>-->
-                <i class="badge">.</i>
+                <i class="badge">..</i>
             </ion-segment-button>
         </ion-segment>
     </div>
@@ -84,14 +84,15 @@
         </ion-list>
 
         <ion-list *ngSwitchWhen="'4'">
-            <ion-item *ngFor="#conversation of conversations" (click)="goToChat(conversation)">
+            <ion-item [ngClass]="{unread:conversation.lastMsg.from == userData.uid && !conversation.lastMsg.read}"
+                      *ngFor="#conversation of conversations" (click)="goToChat(conversation)">
                 <ion-avatar item-left>
                     <img src="{{conversation.profile.profileImg}}">
                 </ion-avatar>
                 <h2>{{conversation.profile.firstName}} {{conversation.profile.lastName}}</h2>
 
-                <p class="text-lowercase">{{conversation.profile.userName}}
-                    <sup class="item-end">10:45 PM</sup>
+                <p class="text-lowercase">{{conversation.lastMsg.text}}
+                    <sup class="item-end">{{conversation.lastMsg.time}}</sup>
                 </p>
             </ion-item>
         </ion-list>
