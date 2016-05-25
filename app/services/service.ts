@@ -23,6 +23,24 @@ export class MyService {
             });
             //}
         });
+        this.getFirebaseRef().child('requests').child(this.getCurrentUserData().uid).on('child_removed', (request)=> {
+            console.log(request.val());
+            //this.getFirebaseRef().child('users').child(request.key()).once("value", (user)=> {
+            //    var obj = request.val();
+            //    obj.profile = user.val();
+            //    this.requests.push(obj);
+            //});
+
+            this.requests.forEach((val, i)=> {
+                console.log(val.userID == request.val().userID)
+                if (val.userID == request.val().userID) {
+                    this.requests.splice(i, 1)
+                }
+                console.log(request.val().userID)
+                console.log(val.userID)
+            })
+
+        });
         return this.requests;
     }
 
@@ -30,11 +48,11 @@ export class MyService {
         this.friends = [];
         this.getFirebaseRef().child('friends').child(this.getCurrentUserData().uid).on('child_added', (request)=> {
             //for (var key in request.val()) {
-                this.getFirebaseRef().child('users').child(request.key()).once("value", (user)=> {
-                    var obj = request.val();
-                    obj.profile = user.val();
-                    this.friends.push(obj);
-                });
+            this.getFirebaseRef().child('users').child(request.key()).once("value", (user)=> {
+                var obj = request.val();
+                obj.profile = user.val();
+                this.friends.push(obj);
+            });
             //}
         });
         return this.friends;
