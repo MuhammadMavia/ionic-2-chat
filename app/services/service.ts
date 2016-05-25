@@ -14,14 +14,14 @@ export class MyService {
 
     getRequestForMe() {
         this.requests = [];
-        this.getFirebaseRef().child('requests').child(this.getCurrentUserData().uid).on('value', (request)=> {
-            for (var key in request.val()) {
-                this.getFirebaseRef().child('users').child(key).once("value", (user)=> {
-                    var obj = request.val()[key];
-                    obj.profile = user.val();
-                    this.requests.push(obj);
-                });
-            }
+        this.getFirebaseRef().child('requests').child(this.getCurrentUserData().uid).on('child_added', (request)=> {
+            //for (var key in request.val()) {
+            this.getFirebaseRef().child('users').child(request.key()).once("value", (user)=> {
+                var obj = request.val();
+                obj.profile = user.val();
+                this.requests.push(obj);
+            });
+            //}
         });
         return this.requests;
     }
@@ -132,7 +132,7 @@ export class MyService {
             multiPath[`notifications/${request.profile.userID}/${obj.userID}`] = obj;
             multiPath[`friends/${this.getCurrentUserData().uid}/${request.profile.userID}`] = {status: 1};
             multiPath[`friends/${request.profile.userID}/${this.getCurrentUserData().uid}`] = {status: 1};
-            multiPath[`requests/${this.getCurrentUserData().uid}/${request.profile.userID}`] = null;
+            //multiPath[`requests/${this.getCurrentUserData().uid}/${request.profile.userID}`] = null;
             this.getFirebaseRef().update(multiPath);
             var conversationKey = this.getFirebaseRef().child('conversations').push({
                 users: [request.profile.userID, this.getCurrentUserData().uid],
