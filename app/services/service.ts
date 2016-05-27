@@ -129,7 +129,6 @@ export class MyService {
 
     getChat(conversationID, conversation) {
         this.messages = [];
-        console.log(conversation.lastMsg.from == this.getCurrentUserData().uid)
         if (conversation.lastMsg.from == this.getCurrentUserData().uid) {
             this.getFirebaseRef().child('conversations').child(conversationID).child('lastMsg').child('read').set(true);
         }
@@ -163,7 +162,7 @@ export class MyService {
 
     resToReq(res, request) {
         if (res) {
-            var obj = {};
+            var obj:any = {};
             obj.userID = this.getCurrentUserData().uid;
             obj.code = 1;
             obj.read = false;
@@ -199,7 +198,7 @@ export class MyService {
     }
 
     sendMsg(msg, user) {
-        var newMsg = {};
+        let newMsg:any = {};
         newMsg.to = this.getCurrentUserData().uid;
         newMsg.code = 1;
         newMsg.from = user.profile.userID;
