@@ -110,10 +110,11 @@ export class MyService {
 
     getAllUser() {
         this.users = [];
-        this.getFirebaseRef().child('users').once("value", (user)=> {
-            for (var key in user.val()) {
-                this.users.push(user.val()[key]);
-            }
+        this.getFirebaseRef().child('users').on("child_added", (user)=> {
+            //for (var key in user.val()) {
+                this.users.push(user.val());
+            //}
+            console.log(this.users);
         });
         return this.users;
     }
