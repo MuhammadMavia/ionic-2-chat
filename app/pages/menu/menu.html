@@ -48,7 +48,7 @@
         </ion-list>
 
         <ion-list *ngSwitchWhen="'1'">
-            <ion-item *ngFor="#friend of friends" (click)="goToChat(friend)">
+            <ion-item *ngFor="#friend of friends" (click)="goToProfile(friend)">
                 <ion-avatar item-left>
                     <img src="{{friend.profile.profileImg}}">
                 </ion-avatar>
@@ -85,11 +85,11 @@
 
         <ion-list *ngSwitchWhen="'4'">
             <ion-item [ngClass]="{unread:conversation.lastMsg.from == userData.uid && !conversation.lastMsg.read}"
-                      *ngFor="#conversation of conversations" (click)="goToChat(conversation)">
+                      *ngFor="#conversation of conversations; #i=index" (click)="goToChat(conversation,i)">
                 <ion-avatar item-left>
                     <img src="{{conversation.profile.profileImg}}">
                 </ion-avatar>
-                <h2>{{conversation.profile.firstName}} {{conversation.profile.lastName}}</h2>
+                <h2>{{conversation.profile.firstName}} {{conversation.profile.lastName}} {{conversation.lastMsg.read | json}}</h2>
 
                 <p class="text-lowercase">{{conversation.lastMsg.text}}
                     <sup class="item-end">{{conversation.lastMsg.time}}</sup>

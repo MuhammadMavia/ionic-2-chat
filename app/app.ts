@@ -4,6 +4,7 @@ import {MyService} from './services/service';
 import {Login} from './pages/login/login';
 import {Menu} from './pages/menu/menu';
 import {Chat} from './pages/chat/chat';
+import {Profile} from './pages/profile/profile';
 import {SignUp} from './pages/signup/signup';
 
 
@@ -15,6 +16,7 @@ import {SignUp} from './pages/signup/signup';
 export class MyApp {
     //rootPage:any = Login;
     rootPage:any = Menu;
+    //rootPage:any = Profile;
     //rootPage:any = Chat;
 
     constructor(platform:Platform) {

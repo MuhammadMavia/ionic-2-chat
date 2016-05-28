@@ -2,6 +2,7 @@ import {Page,NavController} from 'ionic-angular';
 import {SignUp} from '../signup/signup';
 import {Login} from '../login/login';
 import {Chat} from '../chat/chat';
+import {Profile} from '../profile/profile';
 import {MyService} from '../../services/service';
 
 @Page({
@@ -36,11 +37,10 @@ export class Menu {
         this.myService.resToReq(res, request)
     }
 
-    goToChat(friend) {
-        console.log(friend);
+    goToChat(friend, index) {
         if (friend.conversationID) {
+            this.conversations[index].lastMsg.read = true;
             this.nav.push(Chat, friend);
-
         }
         else {
             /*this.myService.getFirebaseRef().child('my_conversations').child(friend.profile.userID).on('value', (conversation)=> {
@@ -58,6 +58,10 @@ export class Menu {
             console.log(friend.profile)
         }
 
+    }
+
+    goToProfile(friend, index) {
+            this.nav.push(Profile, friend);
     }
 
     doLogout() {

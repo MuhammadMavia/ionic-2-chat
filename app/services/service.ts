@@ -75,41 +75,32 @@ export class MyService {
     getConversations() {
         this.conversations = [];
         this.getFirebaseRef().child('my_conversations').child(this.getCurrentUserData().uid).on('child_added', (myConversation)=> {
-            //console.log('my_conversations', myConversation.val());
-            //for (var key in myConversation.val()) {
+            this.getFirebaseRef().child('conversations').child(myConversation.key()).on('child_changed', (changeData)=> {
+                var newData = changeData.val();
+                if (newData.from == this.getCurrentUserData().uid) {
+                    //this.getFirebaseRef().child('conversations').child(myConversation.key()).child('lastMsg').child('read').set(true);
+                    this.localNotificationShow(newData.from);
+                }
+                this.conversations.forEach((val, index)=> {
+                    if (val.conversationID == newData.conversationID) {
+                        this.conversations[index].lastMsg = newData;
+                    }
+                });
+                console.log(newData);
+                console.log(this.conversations);
+            });
+
             this.getFirebaseRef().child('conversations').child(myConversation.key()).once("value", (conversation)=> {
-                //console.log('conversation', conversation.val());
                 var obj = conversation.val();
                 let r = obj.users.indexOf(this.getCurrentUserData().uid);
-                //console.log(key, r);
                 r ? r = 0 : r = 1;
                 this.getFirebaseRef().child('users').child(obj.users[r]).once('value', (user)=> {
                     obj.profile = user.val();
                     obj.conversationID = conversation.key();
                     this.conversations.push(obj);
-                    //console.log('conversations', this.conversations)
                 });
             });
-            //}
         });
-        /*this.getFirebaseRef().child('my_conversations').child(this.getCurrentUserData().uid).on('child_changed', (myConversation)=> {
-         console.log('my_conversations', myConversation.val());
-         //for (var key in myConversation.val()) {
-         /!* this.getFirebaseRef().child('conversations').child(myConversation.key()).once("value", (conversation)=> {
-         //console.log('conversation', conversation.val());
-         var obj = conversation.val();
-         let r = obj.users.indexOf(this.getCurrentUserData().uid);
-         //console.log(key, r);
-         r ? r = 0 : r = 1;
-         this.getFirebaseRef().child('users').child(obj.users[r]).once('value', (user)=> {
-         obj.profile = user.val();
-         obj.conversationID = conversation.key();
-         this.conversations.push(obj);
-         //console.log('conversations', this.conversations)
-         });
-         });*!/
-         //}
-         });*/
         return this.conversations;
     }
 
@@ -128,6 +119,7 @@ export class MyService {
     }
 
     getChat(conversationID, conversation) {
+        this.getFirebaseRef().child('messages').child(conversationID).off("child_added");
         this.messages = [];
         if (conversation.lastMsg.from == this.getCurrentUserData().uid) {
             this.getFirebaseRef().child('conversations').child(conversationID).child('lastMsg').child('read').set(true);
@@ -135,7 +127,6 @@ export class MyService {
         this.getFirebaseRef().child('messages').child(conversationID).on("child_added", (msg)=> {
             //this.messages = [];
             this.messages.push(msg.val());
-            this.localNotificationShow("Msg");
             /* for (var key in msg.val()) {
              this.messages.push(msg.val()[key]);
              }*/
@@ -179,7 +170,7 @@ export class MyService {
                 createdOn: Firebase.ServerValue.TIMESTAMP,
                 lastMsg: {
                     text: false,
-                    time: false,
+                    time: Date.now(),
                     from: false,
                     read: false,
                     code: false,
@@ -205,6 +196,7 @@ export class MyService {
         newMsg.time = Firebase.ServerValue.TIMESTAMP;
         newMsg.read = false;
         newMsg.text = msg;
+        newMsg.conversationID = user.conversationID;
         //console.log(msg, user);
         this.getFirebaseRef().child('messages').child(user.conversationID).push(newMsg);
         this.getFirebaseRef().child('conversations').child(user.conversationID).child('lastMsg').set(newMsg);
