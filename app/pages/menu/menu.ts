@@ -1,4 +1,5 @@
-import {Page,NavController} from 'ionic-angular';
+import {Page,NavController,Loading} from 'ionic-angular';
+import {LocalNotifications} from 'ionic-native';
 import {SignUp} from '../signup/signup';
 import {Login} from '../login/login';
 import {Chat} from '../chat/chat';
@@ -12,7 +13,7 @@ export class Menu {
     ref:any;
     tab:any;
     friends:any;
-    friendIDs:Array;
+    friendIDs:any;
     userData:any;
     allUsers:any;
     requests:any;
@@ -31,7 +32,22 @@ export class Menu {
         this.userData = myService.getCurrentUserData();
         this.notifications = myService.getNotifications();
         this.conversations = myService.getConversations();
+        /*let a = myService.presentLoading();
+        nav.present(a);
+        setTimeout(() => {
+            a.dismiss();
+        }, 5000);
+
+        console.log(nav);*/
     }
+
+    /*presentLoading() {
+        let loading = Loading.create({
+            content: "Please wait...",
+            //duration: 3000
+        });
+        this.nav.present(loading);
+    }*/
 
     sendRequest(reqUser) {
         this.myService.sendRequest(reqUser);
@@ -65,7 +81,7 @@ export class Menu {
     }
 
     goToProfile(friend, index) {
-            this.nav.push(Profile, friend);
+        this.nav.push(Profile, friend);
     }
 
     doLogout() {

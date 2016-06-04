@@ -14,8 +14,8 @@ import {SignUp} from './pages/signup/signup';
     config: {} // http://ionicframework.com/docs/v2/api/config/Config/
 })
 export class MyApp {
-    //rootPage:any = Login;
-    rootPage:any = Menu;
+    rootPage:any = Login;
+    //rootPage:any = Menu;
     //rootPage:any = Profile;
     //rootPage:any = Chat;
 

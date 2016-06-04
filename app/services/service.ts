@@ -1,5 +1,6 @@
 import {Injectable} from 'angular2/core';
 import {LocalNotifications} from 'ionic-native';
+import {Loading,Alert} from 'ionic-angular';
 
 @Injectable()
 export class MyService {
@@ -14,6 +15,21 @@ export class MyService {
 
     constructor() {
 
+    }
+
+    presentLoading() {
+        let loading = Loading.create({
+            content: "Please wait...",
+        });
+        return loading;
+    }
+
+    presentAlert(title,subTitle,btn) {
+        return Alert.create({
+            title: title,
+            subTitle: subTitle,
+            buttons: [btn]
+        });
     }
 
     localNotificationShow(msg) {
