@@ -5,7 +5,9 @@ import {LocalNotifications} from 'ionic-native';
 export class MyService {
     users:any;
     friends:any;
+    friendIDs:any;
     requests:any;
+    requestIDs:any;
     messages:any;
     notifications:any;
     conversations:any;
@@ -44,19 +46,34 @@ export class MyService {
         return this.requests;
     }
 
+    getRequestIDs() {
+        this.requestIDs = [];
+        this.getFirebaseRef().child('requests').child(this.getCurrentUserData().uid).on('child_added', (request)=> {
+            this.requestIDs.push(request.key());
+        });
+        return this.requestIDs;
+    }
+
     getMeFriends() {
         this.friends = [];
         this.getFirebaseRef().child('friends').child(this.getCurrentUserData().uid).on('child_added', (request)=> {
-            //for (var key in request.val()) {
             this.getFirebaseRef().child('users').child(request.key()).once("value", (user)=> {
                 var obj = request.val();
                 obj.profile = user.val();
                 this.friends.push(obj);
             });
-            //}
         });
         return this.friends;
     }
+
+    getMyFriendIDs() {
+        this.friendIDs = [];
+        this.getFirebaseRef().child('friends').child(this.getCurrentUserData().uid).on('child_added', (request)=> {
+            this.friendIDs.push(request.key());
+        });
+        return this.friendIDs;
+    }
+
 
     getNotifications() {
         this.notifications = [];
@@ -112,7 +129,7 @@ export class MyService {
         this.users = [];
         this.getFirebaseRef().child('users').on("child_added", (user)=> {
             //for (var key in user.val()) {
-                this.users.push(user.val());
+            this.users.push(user.val());
             //}
             console.log(this.users);
         });

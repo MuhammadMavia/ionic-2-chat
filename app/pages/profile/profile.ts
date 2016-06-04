@@ -13,6 +13,7 @@ export class Profile {
 
     constructor(public nav:NavController, public params:NavParams, public myService:MyService) {
         this.friend = params.data.profile;
+        console.log(this.friend)
     }
 
     sendMsg(msg) {

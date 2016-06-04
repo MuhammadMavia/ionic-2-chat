@@ -35,7 +35,7 @@
 
     <div [ngSwitch]="tab">
         <ion-list *ngSwitchWhen="'0'">
-            <ion-item *ngFor="#user of allUsers">
+            <ion-item *ngFor="#user of allUsers" [ngStyle]="{'display':userData.uid != user.userID && requestIDs.indexOf(user.userID)==-1 && friendIDs.indexOf(user.userID)==-1?'':'none'}">
                 <ion-avatar item-left>
                     <img src="{{user.profileImg}}">
                 </ion-avatar>
@@ -89,7 +89,7 @@
                 <ion-avatar item-left>
                     <img src="{{conversation.profile.profileImg}}">
                 </ion-avatar>
-                <h2>{{conversation.profile.firstName}} {{conversation.profile.lastName}} {{conversation.lastMsg.read | json}}</h2>
+                <h2>{{conversation.profile.firstName}} {{conversation.profile.lastName}} {{!conversation.lastMsg.read |json}}</h2>
 
                 <p class="text-lowercase">{{conversation.lastMsg.text}}
                     <sup class="item-end">{{conversation.lastMsg.time}}</sup>

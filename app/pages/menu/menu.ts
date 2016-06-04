@@ -12,9 +12,11 @@ export class Menu {
     ref:any;
     tab:any;
     friends:any;
+    friendIDs:Array;
     userData:any;
     allUsers:any;
     requests:any;
+    requestIDs:any;
     notifications:any;
     conversations:any;
 
@@ -22,8 +24,10 @@ export class Menu {
         this.tab = '0';
         this.ref = myService.getFirebaseRef();
         this.friends = myService.getMeFriends();
+        this.friendIDs = myService.getMyFriendIDs();
         this.allUsers = myService.getAllUser();
         this.requests = myService.getRequestForMe();
+        this.requestIDs = myService.getRequestIDs();
         this.userData = myService.getCurrentUserData();
         this.notifications = myService.getNotifications();
         this.conversations = myService.getConversations();

@@ -1,15 +1,15 @@
-<ion-toolbar primary *navbar>
+<ion-navbar primary *navbar>
     <ion-title>Profile</ion-title>
     <ion-buttons end>
         <button royal (click)="doLogout()">
             <ion-icon name="more"></ion-icon>
         </button>
     </ion-buttons>
-</ion-toolbar>
+</ion-navbar>
 
 <ion-content>
     <ion-card>
-        <img src="http://ionicframework.com/dist/preview-app/www/img/nin-live.png"/>
+        <img src="{{friend.profileImg}}"/>
         <ion-card-content>
             <ion-card-title>
                 {{friend.firstName}} {{friend.lastName}}
